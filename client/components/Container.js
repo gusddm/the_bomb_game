@@ -12,8 +12,6 @@ const Container = React.createClass({
     handleDrop(item, binClass) {
 
         let draggedBomb = this.props.liveBombs.filter(liveBomb => liveBomb.id === item.bomb.id)[0];
-        
-        console.log(draggedBomb);
 
         if(draggedBomb && draggedBomb.lifetime > 0) {
             const colorClass = item.bomb.className.substring(6).toLowerCase();
