@@ -17,14 +17,15 @@ const enhancers = compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 );
 
-const default_bins= ["binRed", "binGreen", "binBlue"];             
+const bins = {defaultSwapTime: 40, swapBinTime: 40, bins:["binRed", "binGreen", "binBlue"]};
+const bombs = {bombsPlaced: 0, spawnBombTime: 5, score: 0};
 
 const configStore = function configureStore(initialState) {
   return createStore(
       rootReducer,
       {
-        bombs: {bombsPlaced: 0},
-        bins: default_bins  
+        bombs,
+        bins
       }
   );
 }

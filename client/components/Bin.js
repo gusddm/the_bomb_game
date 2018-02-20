@@ -10,7 +10,7 @@ const Bin = React.createClass({
         const _className = canDrop ? 'hover'.concat(this.props.className) : this.props.className;
 
 		return connectDropTarget(
-            <div className={_className}>{isActive ? 'Release to drop' : 'Drag a box here'}</div>
+            <div className={_className}>{isActive ? 'Release to drop Bomb' : 'Drag a Bomb here!'}</div>
         )
     }
 });
@@ -22,7 +22,7 @@ const bombTarget = {
 	}
 }
 
-export default DropTarget(ItemTypes.CIRCLE, bombTarget, (connect, monitor) => ({
+export default DropTarget(ItemTypes.BOMB, bombTarget, (connect, monitor) => ({
 	connectDropTarget: connect.dropTarget(),
 	isOver: monitor.isOver(),
 	canDrop: monitor.canDrop()

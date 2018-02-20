@@ -1,5 +1,5 @@
 const ItemTypes = {
-    CIRCLE: 'circle'
+    BOMB: 'liveBomb'
 };
 
 export default ItemTypes

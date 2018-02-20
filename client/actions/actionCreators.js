@@ -1,19 +1,19 @@
-export function addCircle() {
+export function addBomb() {
     return {
-      type: 'ADD_CIRCLE'
+      type: 'ADD_BOMB'
     }
   }
 
-export function removeCircle(i) {
+export function removeBomb(i) {
     return {
-        type: 'REMOVE_CIRCLE',
+        type: 'REMOVE_BOMB',
         id: i
     }
 }  
 
 export function reduceLife(i, lifetaken) {
     return {
-        type: 'REDUCE_LIFE_CIRCLE',
+        type: 'REDUCE_LIFE_BOMB',
         id: i,
         lifetaken : lifetaken
     }
@@ -31,16 +31,21 @@ export function swapBin() {
     }
 }
 
-export function takeBomb(score) {
+export function reduceBinSwapCount() {
     return {
-        type: 'TAKE_BOMB',
-        score: score
+        type: 'REDUCE_BIN_SWAP_COUNT'
     }
 }
 
-export function changeScore(bombPlacement) {
+export function resetBinSwapCount() {
     return {
-        type: 'CHANGE_SCORE',
-        bombPlacement: bombPlacement
+        type: 'RESET_BIN_SWAP_COUNT'
+    }
+}
+
+export function takeBomb(score) {
+    return {
+        type: 'TAKE_BOMB_TO_BIN',
+        score: score
     }
 }

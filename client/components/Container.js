@@ -7,17 +7,26 @@ import Bin from './Bin';
 import { move } from '../utils';
 
 var intervalIDArr = [];
+
 const Container = React.createClass({
     handleDrop(item, binClass) {
-        const colorClass = item.bomb.className.substring(6).toLowerCase();
-        if(binClass.toLowerCase().indexOf(colorClass) > -1) {
-            console.log("Se suma el score por la bomba de color");            
-        }
+
+        let draggedBomb = this.props.liveBombs.filter(liveBomb => liveBomb.id === item.bomb.id)[0];
+        
+        console.log(draggedBomb);
+
+        if(draggedBomb && draggedBomb.lifetime > 0) {
+            const colorClass = item.bomb.className.substring(6).toLowerCase();
+            let score;
+            score = binClass.toLowerCase().indexOf(colorClass) > -1 ? 1 : -1;    
+            this.props.takeBomb(score);
+            this.props.removeBomb(item.id);
+        }    
     },
     placeBomb() {
         if(this.props.bombs.bombsPlaced < 120) {
             this.props.placeBomb();
-            this.props.addCircle();
+            this.props.addBomb();
         }
         else {
             this.stopInvertals()
@@ -31,10 +40,16 @@ const Container = React.createClass({
         intervalIDArr.push(timerId);
     },
     shuffleBins(time) {
-        let interval = 3000;
-        let timerId = setInterval(() => {
-            this.props.swapBin();
-        }, interval);
+        let interval = 1000;
+        let timerId = setInterval(() => {                
+            if(this.props.bins.swapBinTime > 1) {
+                this.props.reduceBinSwapCount();
+            }
+            else {
+                this.props.swapBin();
+                this.props.resetBinSwapCount();
+            }
+        }, 1000);
         intervalIDArr.push(timerId);
     },
     stopInvertals() {
@@ -46,18 +61,23 @@ const Container = React.createClass({
       this.shuffleBins(gameTime);
     },
     shouldComponentUpdate(nextProps) {        
-        return this.props.circles !== nextProps.circles;
+        return this.props.liveBombs !== nextProps.liveBombs || this.props.bins !== nextProps.bins || this.props.bombs !== nextProps.bombs;
     },
     render() {
         const { canDrop, isOver, connectDropTarget } = this.props;
-        const isActive = canDrop && isOver;        
+        const isActive = canDrop && isOver;
         return ( 
-            <div>Bombs Planted: {this.props.bombs.bombsPlaced}
+            <div>
+                <h2>Bombs Planted: {this.props.bombs.bombsPlaced}</h2>
+                <h2>Your current Score: {this.props.bombs.score}</h2>
                 <div className="grid">                            
-                   {this.props.circles.map((bomb, id) => <Bomb key={bomb.id} bomb={bomb} {...this.props} />)}
+                   {this.props.liveBombs.map((bomb, id) => <Bomb key={bomb.id} bomb={bomb} {...this.props} />)}
                 </div>
                 <div>
-                   {this.props.bins.map((clazz, id) => <Bin key={id} className={clazz} onDrop={item => this.handleDrop(item, clazz)} />)}
+                    <div>
+                        {this.props.bins.bins.map((clazz, id) => <Bin key={id} className={clazz} onDrop={item => this.handleDrop(item, clazz)} />)}
+                    </div>                   
+                    <div style={{float: "left", position: "relative"}}>Countdown to swap bins: {this.props.bins.swapBinTime} </div>
                 </div>
             </div>
         )

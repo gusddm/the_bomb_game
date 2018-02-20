@@ -13,7 +13,7 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Link to="/">Circle Game</Link>
+                <Link to="/">Bomb Game</Link>
                 { React.cloneElement(this.props.children, this.props) }
             </div>    
         );
@@ -24,7 +24,9 @@ const mapStateToProps = (state) => {
     return {
         bins : state.bins,
         bombs: state.bombs,
-        circles: state.circles
+        liveBombs: state.liveBombs,
+        binTimer: state.binTimer,
+        bombTimer: state.bombTimer
     };
   }
 

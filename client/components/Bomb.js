@@ -8,14 +8,11 @@ const Bomb = React.createClass({
     componentDidMount() {
         let props = this.props;
         let bomb = props.bomb;
-        //let timeout = bomb.lifetime * 1000;
         this.timerId = setInterval(() => {
             props.reduceLife(bomb.id, 1);
         }, 1000);
     },
     componentWillUnmount() {
-        console.log("elimino ID: ");
-        console.log(this.props);
         clearInterval(this.timerId);
     },
     render() {
@@ -29,7 +26,7 @@ const Bomb = React.createClass({
                 fontWeight: 'bold',
                 cursor: 'move'}}>
                 <div className={bomb.className}>
-                    <div className="innerCircle">{bomb.lifetime}</div>
+                    <div className="innerBomb">{bomb.lifetime}</div>
                 </div>    
             </div>
         )        
@@ -54,7 +51,7 @@ const cardSource = {
 	}
 };
 
-export default 	DragSource(ItemTypes.CIRCLE, cardSource, (connect, monitor) => ({
+export default 	DragSource(ItemTypes.BOMB, cardSource, (connect, monitor) => ({
 		connectDragSource: connect.dragSource(),
 		isDragging: monitor.isDragging()
 	}))(Bomb);
